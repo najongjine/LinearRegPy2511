@@ -95,3 +95,23 @@ print(f"y (정답 데이터) 크기: {y.shape}")
 print("\n[X 컬럼 목록 (모델에 들어갈 항목들)]")
 print(X.columns.tolist())
 """ X 와 y 로 나누기 END """
+
+""" 훈련 데이터와 test 데이터 나누기 """
+from sklearn.model_selection import train_test_split
+
+# 1. 데이터 분리 (Train: 80%, Test: 20%)
+# shuffle=True: 데이터를 무작위로 섞습니다 (기본값이 True이지만 명시했습니다)
+# random_state=42: 실행할 때마다 똑같이 섞이도록 고정 (재현성 확보)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, 
+    test_size=0.2, 
+    shuffle=True, 
+    random_state=42
+)
+
+print("✅ 데이터 분리 완료!")
+print(f"훈련용 데이터(X_train): {X_train.shape}")
+print(f"테스트용 데이터(X_test):  {X_test.shape}")
+print(f"훈련용 정답(y_train): {y_train.shape}")
+print(f"테스트용 정답(y_test):  {y_test.shape}")
+""" 훈련 데이터와 test 데이터 나누기 END """
