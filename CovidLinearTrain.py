@@ -77,3 +77,21 @@ if os.path.exists(csv_file_path):
 else:
     print(f"❌ 파일을 찾을 수 없습니다. 경로를 확인해주세요: {csv_file_path}")
 """ Pandas 로 다운로드 받은 데이터 읽기 END"""
+
+""" X 와 y 로 나누기 """
+# 1. y (정답) 설정: 코로나 양성 여부
+y = df['is_covid']
+
+# 2. X (입력/문제지) 설정
+# 정답인 'is_covid' 제외
+# 정답의 원본인 'CLASIFFICATION_FINAL'도 반드시 제외 (이거 안 빼면 정확도 100% 나옴 -> Data Leakage)
+X = df.drop(columns=['is_covid', 'CLASIFFICATION_FINAL'])
+
+print(f"✅ 데이터 분리 완료!")
+print(f"X (입력 데이터) 크기: {X.shape}")
+print(f"y (정답 데이터) 크기: {y.shape}")
+
+# X에 어떤 컬럼들이 남았는지 확인
+print("\n[X 컬럼 목록 (모델에 들어갈 항목들)]")
+print(X.columns.tolist())
+""" X 와 y 로 나누기 END """
