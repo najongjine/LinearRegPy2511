@@ -118,4 +118,5 @@ print(f"테스트용 정답(y_test):  {y_test.shape}")
 
 
 """ 모델에 데이터 때려넣기 """
+# https://gemini.google.com/share/97c9ff213c86
 """ 모델에 데이터 때려넣기 END """
