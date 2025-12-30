@@ -118,7 +118,7 @@ print(f"테스트용 정답(y_test):  {y_test.shape}")
 
 
 """ 모델에 데이터 때려넣기 """
-# https://gemini.google.com/share/97c9ff213c86
+# https://gemini.google.com/share/761e410a38dd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import joblib  # 모델 저장을 위한 라이브러리

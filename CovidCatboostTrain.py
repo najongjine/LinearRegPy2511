@@ -119,21 +119,22 @@ print(f"테스트용 정답(y_test):  {y_test.shape}")
 
 """ 모델에 데이터 때려넣기 """
 # https://gemini.google.com/share/97c9ff213c86
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-import joblib  # 모델 저장을 위한 라이브러리
+from catboost import CatBoostClassifier # 로지스틱 대신 캣부스트 임포트
+from sklearn.metrics import accuracy_score, confusion_matrix
+import joblib
+# 1. 모델 생성
+# verbose=0: 학습 과정 로그를 끄는 옵션 (지저분한 로그 안 보임)
+# random_state=42: 결과 고정
+print("🐱 CatBoost 모델을 불러오는 중...")
+model = CatBoostClassifier(random_state=42, verbose=0)
 
-# 1. 모델 생성 (LinearRegression 대신 분류용인 LogisticRegression 사용)
-# max_iter=1000: 데이터가 많으면 학습 횟수를 좀 늘려줘야 에러가 안 납니다.
-model = LogisticRegression(max_iter=1000)
+print("🚀 모델 학습을 시작합니다... (CatBoost는 시간이 조금 더 걸립니다)")
 
-print("🚀 모델 학습을 시작합니다... (데이터 때려넣는 중)")
-
-# 2. 모델 학습 (fit) -> 기출문제(X_train)와 정답(y_train)을 줌
+# 2. 모델 학습 (fit)
 model.fit(X_train, y_train)
 print("✅ 모델 학습 완료!")
 
-# 3. 검증 (predict) -> 시험문제(X_test)를 풀게 시킴
+# 3. 검증 (predict)
 print("📝 테스트 데이터로 예측 중...")
 y_pred = model.predict(X_test)
 
@@ -143,15 +144,13 @@ print("-" * 30)
 print(f"🏆 정확도 (Accuracy): {acc * 100:.2f}%")
 print("-" * 30)
 
-# [추가 정보] 혼동 행렬 (맞춘 개수 상세 확인)
-# [[진짜음성맞춤, 가짜양성(틀림)],
-#  [가짜음성(틀림), 진짜양성맞춤]]
+# [추가 정보] 혼동 행렬
 cm = confusion_matrix(y_test, y_pred)
 print("📊 혼동 행렬 (Confusion Matrix):")
 print(cm)
 
-# 5. 모델 저장하기 (내 컴퓨터에 파일로 저장)
-model_filename = 'covid_prediction_model.pkl'
+# 5. 모델 저장하기
+model_filename = 'covid_catboost_model.pkl'
 joblib.dump(model, model_filename)
 print(f"\n💾 모델이 저장되었습니다: {model_filename}")
 """ 모델에 데이터 때려넣기 END """
