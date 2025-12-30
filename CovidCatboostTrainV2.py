@@ -138,9 +138,12 @@ print(f"🐱 범주형 변수 {len(cat_features_indices)}개를 식별했습니�
 
 # 2. 모델 생성
 model = CatBoostClassifier(
+    iterations=500,        # [중요] 기본값 1000 -> 500으로 절반 축소
+    learning_rate=0.1,     # [중요] 학습 속도를 조금 높여서 빨리 배우게 함
+    depth=6,               # 트리 깊이 (너무 깊으면 느려짐, 적당히 6)
     random_state=42, 
-    verbose=0,
-    eval_metric='Accuracy' # 학습할 때 정확도 기준으로 최적화
+    verbose=50,            # [중요] 0 -> 50 (50번 돌 때마다 로그 찍힘, 멈춘 거 아님을 확인)
+    early_stopping_rounds=20 # 성능 안 오르면 20번 기다리다 그냥 종료 (시간 절약)
 )
 
 print("🚀 모델 학습을 시작합니다... (범주형 처리 적용됨)")
