@@ -50,6 +50,21 @@ if os.path.exists(csv_file_path):
     # classification: 1~3은 확진(1), 4 이상은 비확진(0)
     # -------------------------------------------------------
     df['is_covid'] = df['CLASIFFICATION_FINAL'].apply(lambda x: 1 if x < 4 else 0)
+
+    # 함수 정의: '9999-99-99'면 0(생존), 아니면 1(사망)
+    def check_death(date):
+        if date == '9999-99-99':
+            return 0
+        else:
+            return 1
+
+    # 새로운 컬럼 'is_dead' 생성
+    df['is_dead'] = df['DATE_DIED'].apply(check_death)
+
+    # 처리가 끝났으니 원래 날짜 컬럼은 삭제 (모델에 방해됨)
+    df = df.drop(columns=['DATE_DIED'])
+
+    print(df['is_dead'].value_counts())
     
     # 결과 확인 (처음 5줄)
     print("\n[데이터 미리보기 (상위 5개)]")
