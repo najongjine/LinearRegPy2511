@@ -98,10 +98,12 @@ print(X.columns.tolist())
 
 """ 훈련 데이터와 test 데이터 나누기 """
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 # 1. 데이터 분리 (Train: 80%, Test: 20%)
 # shuffle=True: 데이터를 무작위로 섞습니다 (기본값이 True이지만 명시했습니다)
 # random_state=42: 실행할 때마다 똑같이 섞이도록 고정 (재현성 확보)
+X = X.replace([97, 98, 99], np.nan)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, 
     test_size=0.2, 
@@ -122,19 +124,7 @@ print(f"테스트용 정답(y_test):  {y_test.shape}")
 from catboost import CatBoostClassifier # 로지스틱 대신 캣부스트 임포트
 from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
-# 1. CatBoost에게 "이 컬럼들은 숫자가 아닙니다"라고 알려줄 리스트 작성
-# AGE(나이)와 is_dead(우리가 만든 0/1)를 제외한 모든 명목형 변수들
-cat_features_names = [
-    'USMER', 'MEDICAL_UNIT', 'SEX', 'PATIENT_TYPE', 'PNEUMONIA', 'PREGNANT', 
-    'DIABETES', 'COPD', 'ASTHMA', 'INMSUPR', 'HIPERTENSION', 'OTHER_DISEASE', 
-    'CARDIOVASCULAR', 'OBESITY', 'RENAL_CHRONIC', 'TOBACCO', 'ICU', 'INTUBED'
-]
 
-# 데이터프레임에서 이 컬럼들이 몇 번째 열(index)에 있는지 찾기
-# (CatBoost는 컬럼 이름 대신 인덱스를 좋아합니다)
-cat_features_indices = [X.columns.get_loc(col) for col in cat_features_names if col in X.columns]
-
-print(f"🐱 범주형 변수 {len(cat_features_indices)}개를 식별했습니다.")
 
 # 2. 모델 생성
 model = CatBoostClassifier(
@@ -148,10 +138,7 @@ model = CatBoostClassifier(
 print("🚀 모델 학습을 시작합니다... (범주형 처리 적용됨)")
 
 # 3. 모델 학습 (fit) - 여기서 cat_features를 꼭 넣어줘야 함!
-model.fit(
-    X_train, y_train, 
-    cat_features=cat_features_indices  # <--- 핵심 포인트!
-)
+model.fit(X_train, y_train, eval_set=(X_test, y_test), early_stopping_rounds=50)
 print("✅ 모델 학습 완료!")
 
 # 4. 검증 및 평가
