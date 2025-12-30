@@ -7,7 +7,7 @@ loaded_model = joblib.load('study_multivar_reg.pkl')
 print("로딩 완료! 다차원 예측 시스템 가동.\n")
 
 # 2. 입력 데이터 설정 (변수가 3개 필요함)
-hours = 10.0       # 공부 시간
+hours = 2.0       # 공부 시간
 difficulty = 3     # 난이도 (1:쉬움 ~ 5:어려움)
 condition = 8.0    # 컨디션 (수면시간 등)
 
