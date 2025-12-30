@@ -115,3 +115,7 @@ print(f"테스트용 데이터(X_test):  {X_test.shape}")
 print(f"훈련용 정답(y_train): {y_train.shape}")
 print(f"테스트용 정답(y_test):  {y_test.shape}")
 """ 훈련 데이터와 test 데이터 나누기 END """
+
+
+""" 모델에 데이터 때려넣기 """
+""" 모델에 데이터 때려넣기 END """
