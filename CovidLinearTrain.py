@@ -49,11 +49,11 @@ if os.path.exists(csv_file_path):
     # [추가] 아까 이야기한 타겟 데이터(정답지) 만들기
     # classification: 1~3은 확진(1), 4 이상은 비확진(0)
     # -------------------------------------------------------
-    df['is_covid'] = df['classification'].apply(lambda x: 1 if x < 4 else 0)
+    df['is_covid'] = df['CLASIFFICATION_FINAL'].apply(lambda x: 1 if x < 4 else 0)
     
     # 결과 확인 (처음 5줄)
     print("\n[데이터 미리보기 (상위 5개)]")
-    print(df[['classification', 'is_covid', 'AGE', 'SEX']].head())
+    print(df.head())
     
     # 정답 비율 확인
     print("\n[정답 클래스 비율]")
