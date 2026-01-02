@@ -4,3 +4,4 @@ matplotlib
 pandas
 kagglehub
 catboost
+torch
